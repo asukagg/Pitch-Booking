@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        .leaderboard-container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        }
+
+        .leaderboard-title {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 30px;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .leaderboard-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .leaderboard-table th {
+            background: #3498db;
+            color: white;
+            padding: 15px;
+            text-align: left;
+        }
+
+        .leaderboard-table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .leaderboard-table tr:hover {
+            background: #f5f6fa;
+        }
+
+        .rank {
+            font-weight: bold;
+            color: #3498db;
+        }
+
+        .top-3 {
+            font-weight: bold;
+        }
+
+        .top-3 .rank {
+            color: #e74c3c;
+        }
+    </style>
+</head>
+<body>
+    <div class="leaderboard-container">
+        <h2 class="leaderboard-title">Top Goalscorers</h2>
+        <table class="leaderboard-table">
+            <thead>
+                <tr>
+                    <th>Rank</th>
+                    <th>Player</th>
+                    <th>Goals</th>
+                    <th>Matches</th>
+                    <th>Wins</th>
+                    <th>Goals/Match</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php
+                // Assuming you've already run the SQL query and have the results in $result
+                $rank = 1;
+                while ($row = mysqli_fetch_assoc($result)) {
+                    $rowClass = $rank <= 3 ? 'top-3' : '';
+                    echo "<tr class='$rowClass'>";
+                    echo "<td class='rank'>#" . $rank . "</td>";
+                    echo "<td>" . htmlspecialchars($row['name']) . "</td>";
+                    echo "<td>" . $row['total_goals'] . "</td>";
+                    echo "<td>" . $row['total_matches'] . "</td>";
+                    echo "<td>" . $row['total_wins'] . "</td>";
+                    echo "<td>" . $row['goals_per_match'] . "</td>";
+                    echo "</tr>";
+                    $rank++;
+                }
+                ?>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
